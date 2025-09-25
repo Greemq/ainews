@@ -1,0 +1,22 @@
+[alembic]
+#CREATE MIGRATION
+alembic revision --autogenerate -m "add has_summary to news table"
+
+#MIGRATE
+alembic upgrade head
+
+#DOWNGRADE MIGRATION
+alembic downgrade -1
+
+
+
+#CELERY
+celery -A celery_app beat -l info
+
+celery -A celery_app worker -l info -P solo -Q summaries --concurrency=1
+
+celery -A celery_app worker -l info -P solo -Q parsers --concurrency=1
+
+
+#SERVER
+uvicorn main:app --reload

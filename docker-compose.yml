@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+
+  pgvector:
+    image: ankane/pgvector:latest
+    container_name: pgvector-db
+    restart: always
+    environment:
+      POSTGRES_DB: newsdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+    ports:
+      - "5433:5432"   # локально доступен на порту 5433
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  redis_data:
+  pgdata:
