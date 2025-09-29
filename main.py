@@ -9,7 +9,7 @@ app = FastAPI()
 # ✅ Разрешаем CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://qogamfin.kz"],  # адрес Nuxt
+    allow_origins=["https://qogamfin.kz","http://qq-project"],  # адрес Nuxt
     allow_credentials=True,
     allow_methods=["*"],   # или ["GET", "POST"]
     allow_headers=["*"],   # или ["Authorization", "Content-Type"]
