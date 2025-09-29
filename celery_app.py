@@ -19,12 +19,12 @@ import tasks
 app.conf.beat_schedule = {
     "run-parsers-every-10-minutes": {
         "task": "tasks.run_all_parsers",
-	"schedule": timedelta(seconds=10),
+	"schedule": timedelta(minutes=10),
         "options": {"queue": "parsers"},    # кладём задачу в очередь parsers
     },
     "run-summary-generation-every-10-minutes": {
         "task": "tasks.run_summary_generation",
-	"schedule": timedelta(seconds=10),
+	"schedule": timedelta(minutes=10),
         "options": {"queue": "summaries"},  # кладём задачу в очередь summaries
     },
 }
