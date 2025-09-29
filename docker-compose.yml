@@ -23,6 +23,21 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  mysql:
+    image: mysql:8.1
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Ghbdtn!234
+      MYSQL_DATABASE: newsdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpass
+    ports:
+      - "3307:3306"   # кастомный порт, чтобы не конфликтовать с системным MySQL
+    volumes:
+      - mysqldata:/var/lib/mysql
+
 volumes:
   redis_data:
   pgdata:
+  mysqldata:

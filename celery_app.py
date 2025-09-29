@@ -1,5 +1,6 @@
 from celery import Celery
 from celery.schedules import crontab
+from datetime import timedelta
 
 app = Celery(
     "kaznews",
@@ -16,14 +17,14 @@ import tasks
 
 # Планировщик
 app.conf.beat_schedule = {
-    # "run-parsers-every-10-minutes": {
-    #     "task": "tasks.run_all_parsers",
-    #     "schedule": crontab(minute="*/5"),
-    #     "options": {"queue": "parsers"},    # кладём задачу в очередь parsers
-    # },
+    "run-parsers-every-10-minutes": {
+        "task": "tasks.run_all_parsers",
+	"schedule": timedelta(seconds=10),
+        "options": {"queue": "parsers"},    # кладём задачу в очередь parsers
+    },
     "run-summary-generation-every-10-minutes": {
         "task": "tasks.run_summary_generation",
-        "schedule": crontab(minute="*/1"),
+	"schedule": timedelta(seconds=10),
         "options": {"queue": "summaries"},  # кладём задачу в очередь summaries
     },
 }

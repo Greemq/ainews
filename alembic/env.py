@@ -10,9 +10,10 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 from config import Config
 
 from src.models.base import Base
-from src.models.news import News 
-from src.models.source import Source  
+from src.models.news import News
+from src.models.source import Source
 from src.models.category import Category
+from src.models.cluster import NewsCluster, NewsClusterItem
 # Импортируем все модели для автогенерации
 
 
