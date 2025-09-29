@@ -19,7 +19,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123
     ports:
-      - "5433:5432"   # локально доступен на порту 5433
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -33,7 +33,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: userpass
     ports:
-      - "3307:3306"   # кастомный порт, чтобы не конфликтовать с системным MySQL
+      - "3307:3306"
     volumes:
       - mysqldata:/var/lib/mysql
 

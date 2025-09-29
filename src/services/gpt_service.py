@@ -9,9 +9,7 @@ from jsonschema import validate, ValidationError
 class GPTservice:
     def __init__(self, db: Optional[Session] = None, model: str = "gpt-4o-mini"):
         self.db = db
-	self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-
+	    self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         self.model = model
 
     def _categories_items_schema(self, available: List[Dict[str, Any]]) -> Dict[str, Any]:
