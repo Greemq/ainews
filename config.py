@@ -1,19 +1,14 @@
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 BASE_DIR = Path(__file__).resolve().parent
 
+load_dotenv()
 class Config:
     # MySQL через Docker на порту 3307
-    SQLALCHEMY_DATABASE_URI = os.getenv(
-        "DATABASE_URL",
-        "mysql+pymysql://user:userpass@127.0.0.1:3307/newsdb"
-    )
-
-    # Postgres + pgvector через Docker на порту 5433
-    POSTGRES_URI = os.getenv(
-        "POSTGRES_URI",
-        "postgresql+psycopg2://postgres:123@127.0.0.1:5433/newsdb"
-    )
+    SQLALCHEMY_DATABASE_URI = os.getenv("MYSQL_URI")
+    POSTGRES_URI = os.getenv("POSTGRES_URI")
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False

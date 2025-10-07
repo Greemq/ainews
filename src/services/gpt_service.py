@@ -1,10 +1,13 @@
 # src/services/gpt_service.py
+import base64
 import os
 import json
+import time
 from typing import List, Dict, Any, Optional
 from sqlalchemy.orm import Session
 from openai import OpenAI
 from jsonschema import validate, ValidationError
+
 
 class GPTservice:
     def __init__(self, db: Optional[Session] = None, model: str = "gpt-4o-mini"):
@@ -159,3 +162,46 @@ class GPTservice:
             return response.data[0].embedding
         except Exception as e:
             raise RuntimeError(f"Ошибка получения эмбеддинга: {str(e)}")
+        
+    
+
+    def generate_image(self, title: str, size: str = "1024x1024") -> str:
+        """
+        Генерирует изображение через DALL·E, сохраняет в public/images/news и возвращает относительный URL.
+        """
+        try:
+
+            prompt = (
+                f"Фотореалистичное новостное изображение, иллюстрирующее заголовок: «{title}». "
+                "Без текста и логотипов. Профессиональный фоторепортажный стиль, реалистичное освещение, "
+                "композиция как в редакционной фотографии, без надписей и водяных знаков."
+            )
+            response = self.client.images.generate(
+                model="gpt-image-1",
+                prompt=prompt,
+                size=size,
+                quality="medium"
+            )
+
+            image_base64 = response.data[0].b64_json
+            image_data = base64.b64decode(image_base64)
+            
+
+            project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+            save_dir = os.path.join(project_root, "public", "images", "news")
+            os.makedirs(save_dir, exist_ok=True)
+
+            filename = f"news_{int(time.time())}.png"
+            save_path = os.path.join(save_dir, filename)
+
+            # Сохраняем
+            with open(save_path, "wb") as f:
+                f.write(image_data)
+
+            # Возвращаем относительный путь
+            return f"/images/news/{filename}"
+
+        except Exception as e:
+            raise RuntimeError(f"Ошибка генерации изображения: {str(e)}")
+
+

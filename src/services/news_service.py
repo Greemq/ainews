@@ -1,6 +1,7 @@
 # src/services/news_service.py
 from __future__ import annotations
 
+from ast import List
 from typing import Optional, Sequence, Dict, Any, Iterable, Tuple
 from datetime import datetime,timedelta
 
@@ -54,7 +55,7 @@ class NewsService:
         self,
         page: int = 1,
         per_page: int = 10,
-        category_id: Optional[int] = None,
+        category_ids: Optional[List[int]] = None,
         source_id: Optional[int] = None,
         date_from: Optional[datetime] = None,
         date_to: Optional[datetime] = None,
@@ -64,8 +65,8 @@ class NewsService:
         # ✅ только те, у кого есть summary
         query = query.filter(News.has_summary.is_(True))
 
-        if category_id:
-            query = query.join(News.categories).filter(Category.id == category_id)
+        if category_ids:
+            query = query.join(News.categories).filter(Category.id.in_(category_ids))
         if source_id:
             query = query.filter(News.source_id == source_id)
         if date_from:

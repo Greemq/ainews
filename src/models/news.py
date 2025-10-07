@@ -20,6 +20,7 @@ class News(BaseModel):
     summary_en = Column(Text, nullable=True)
 
     has_summary = Column(Boolean, default=False)
+    image_url = Column(String(255), nullable=True)
 
     published_at = Column(DateTime, nullable=True)
 

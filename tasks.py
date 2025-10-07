@@ -87,6 +87,15 @@ def run_summary_generation():
                 n.categories = selected_cats
                 n.has_summary = True
 
+                # try:
+                #     image_url = gptService.generate_image(
+                #         title=n.title_ru or n.title_en  # приоритет на русский
+                #     )
+                #     n.image_url = image_url  # предполагаем, что в модели News есть поле image_url
+                #     logger.info(f"✅ Generated image for news {n.id}")
+                # except Exception as img_err:
+                #     logger.warning(f"⚠️ Image generation failed for news {n.id}: {img_err}")
+
                 db.commit()
                 logger.info(f"Updated summary for news {n.id}: {n.title_en}")
             except Exception as inner_e:
