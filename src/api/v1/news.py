@@ -17,7 +17,7 @@ def get_news(
     db: Session = Depends(get_db),
     page: int = Query(1, ge=1),
     per_page: int = Query(10, ge=1, le=100),
-    category_ids: Optional[List[int]] = Query(None),
+    category_ids: Optional[List[int]] = Query(None, alias="category_ids[]"),
     source_id: Optional[int] = None,
     date_from: Optional[datetime] = None,
     date_to: Optional[datetime] = None,
