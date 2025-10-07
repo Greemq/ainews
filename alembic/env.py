@@ -36,7 +36,7 @@ target_metadata = Base.metadata
 # ... etc.
 
 def get_url():
-    return os.environ.get("DATABASE_URL")
+    return os.environ.get("MYSQL_URI")
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
