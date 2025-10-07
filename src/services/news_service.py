@@ -28,7 +28,11 @@ class NewsService:
 
     # ======== READ ========
     def get(self, news_id: int) -> Optional[News]:
-        return self.db.get(News, news_id)
+        news = self.db.get(News, news_id)
+        if news:
+            # временно добавляем рандомное изображение
+            setattr(news, "image_url", self.image_path + random.choice(self.image_files))
+        return news
     
     def get_all(self) -> Iterable[News]:
         return self.db.query(News).all()
