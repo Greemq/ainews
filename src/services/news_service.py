@@ -66,11 +66,14 @@ class NewsService:
         query = query.filter(News.has_summary.is_(True))
 
         if category_ids:
-            query = (
-                query.join(News.categories)
-                    .filter(Category.id.in_(category_ids))
-                    .distinct()  # уникальные новости
+            subq = (
+                select([Category.id])
+                .select_from(News.categories)
+                .where(News.id == News.id)
+                .where(Category.id.in_(category_ids))
+                .limit(1)
             )
+            query = query.filter(exists(subq))
         if source_id:
             query = query.filter(News.source_id == source_id)
         if date_from:
