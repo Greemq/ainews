@@ -24,7 +24,7 @@ class NewsService:
             "news_1759743285.png",
             "news_1759743328.png",
         ]
-        self.image_path = "/public/images/news/" 
+        self.image_path = "/images/news/" 
 
     # ======== READ ========
     def get(self, news_id: int) -> Optional[News]:
