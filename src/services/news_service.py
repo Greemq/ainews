@@ -85,7 +85,6 @@ class NewsService:
         if date_to:
             query = query.filter(News.published_at <= date_to)
 
-        logger.info(f"Final SQL: {str(query.statement.compile(compile_kwargs={'literal_binds': True}))}")
 
         total = query.count()
         items = (
