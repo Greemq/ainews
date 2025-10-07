@@ -5,7 +5,7 @@ from ast import List
 from typing import Optional, Sequence, Dict, Any, Iterable, Tuple
 from datetime import datetime,timedelta
 
-from sqlalchemy import select, or_
+from sqlalchemy import select, or_,exists
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -66,14 +66,11 @@ class NewsService:
         query = query.filter(News.has_summary.is_(True))
 
         if category_ids:
-            subq = (
-                select([Category.id])
-                .select_from(News.categories)
-                .where(News.id == News.id)
-                .where(Category.id.in_(category_ids))
-                .limit(1)
+            query = query.filter(
+                exists().where(
+                    (News.id == Category.news.any()) & (Category.id.in_(category_ids))
+                )
             )
-            query = query.filter(exists(subq))
         if source_id:
             query = query.filter(News.source_id == source_id)
         if date_from:
