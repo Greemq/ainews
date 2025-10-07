@@ -97,7 +97,7 @@ class NewsService:
 
 
         for news in items:
-            news.image_url = self.image_path + random.choice(self.image_files)
+            setattr(news, "image_url", self.image_path + random.choice(self.image_files))
         return {
             "page": page,
             "per_page": per_page,
