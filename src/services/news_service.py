@@ -83,9 +83,7 @@ class NewsService:
 
         if category_ids:
             query = query.filter(
-                exists().where(
-                    (News.id == Category.news.any()) & (Category.id.in_(category_ids))
-                )
+                News.categories.any(Category.id.in_(category_ids))
             )
         if source_id:
             query = query.filter(News.source_id == source_id)
