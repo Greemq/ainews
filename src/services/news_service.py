@@ -68,8 +68,8 @@ class NewsService:
         if category_ids:
             query = (
                 query.join(News.categories)
-                .filter(Category.id.in_(category_ids))
-                .group_by(News.id)
+                    .filter(Category.id.in_(category_ids))
+                    .distinct()  # уникальные новости
             )
         if source_id:
             query = query.filter(News.source_id == source_id)
@@ -80,7 +80,7 @@ class NewsService:
 
         total = query.count()
         items = (
-            query.order_by(News.published_at.desc())  # ✅ последние сначала
+            query.order_by(News.published_at.desc())
             .offset((page - 1) * per_page)
             .limit(per_page)
             .all()
