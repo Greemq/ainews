@@ -38,6 +38,8 @@ class NewsOut(BaseModel):
     source: Optional[SourceOut]
     categories: List[CategoryOut] = []
 
+    image_url:Optional[str]
+
     class Config:
         orm_mode = True
 
