@@ -66,7 +66,7 @@ class NewsService:
         query = query.filter(News.has_summary.is_(True))
 
         if category_ids:
-            query = query.join(News.categories).filter(Category.id.in_(category_ids))
+            query = query.join(News.categories).filter(Category.id.in_(category_ids)).distinct()
         if source_id:
             query = query.filter(News.source_id == source_id)
         if date_from:
