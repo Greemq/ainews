@@ -12,11 +12,19 @@ from sqlalchemy.orm import Session
 from src.models.news import News
 from src.models.category import Category
 import os
+import random
 
 import logging
 class NewsService:
     def __init__(self, db: Session):
         self.db = db
+        self.image_files = [
+            "news_1759743147.png",
+            "news_1759743183.png",
+            "news_1759743285.png",
+            "news_1759743328.png",
+        ]
+        self.image_path = "/public/images/news/" 
 
     # ======== READ ========
     def get(self, news_id: int) -> Optional[News]:
@@ -102,6 +110,9 @@ class NewsService:
             .all()
         )
 
+
+        for news in items:
+            news.image_url = self.image_path + random.choice(self.image_files)
         return {
             "page": page,
             "per_page": per_page,
