@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 
 from src.models.news import News
 from src.models.category import Category
+import os
 
 import logging
 class NewsService:
@@ -61,9 +62,20 @@ class NewsService:
         date_to: Optional[datetime] = None,
     ) -> Dict[str, Any]:
         query = self.db.query(News)
-        logger = logging.getLogger("news_logger")
-        logging.basicConfig(level=logging.INFO)
+        log_dir = "/var/www/ainews/logs"
+        os.makedirs(log_dir, exist_ok=True)
 
+        # конфигурация логирования
+        logging.basicConfig(
+            level=logging.INFO,
+            filename=os.path.join(log_dir, "news.log"),  # путь к файлу лога
+            format="%(asctime)s [%(levelname)s] %(message)s",
+            filemode="a"  # добавлять в конец файла
+        )
+
+        logger = logging.getLogger("news_logger")
+
+        # пример логирования category_ids
         logger.info(f"category_ids received: {category_ids}")
 
         # ✅ только те, у кого есть summary
