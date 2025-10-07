@@ -12,7 +12,7 @@ from sqlalchemy.orm import Session
 from src.models.news import News
 from src.models.category import Category
 
-
+import logging
 class NewsService:
     def __init__(self, db: Session):
         self.db = db
@@ -61,6 +61,10 @@ class NewsService:
         date_to: Optional[datetime] = None,
     ) -> Dict[str, Any]:
         query = self.db.query(News)
+        logger = logging.getLogger("news_logger")
+        logging.basicConfig(level=logging.INFO)
+
+        logger.info(f"category_ids received: {category_ids}")
 
         # ✅ только те, у кого есть summary
         query = query.filter(News.has_summary.is_(True))
@@ -77,6 +81,8 @@ class NewsService:
             query = query.filter(News.published_at >= date_from)
         if date_to:
             query = query.filter(News.published_at <= date_to)
+
+        logger.info(f"Final SQL: {str(query.statement.compile(compile_kwargs={'literal_binds': True}))}")
 
         total = query.count()
         items = (
